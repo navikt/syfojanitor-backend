@@ -44,8 +44,6 @@ fun Route.registerJanitorEndpoints(
                 }
                 it.commit()
             }
-
-
             call.respond(HttpStatusCode.Created)
         }
     }
