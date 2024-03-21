@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import no.nav.syfo.domain.Personident
 import no.nav.syfo.infrastructure.database.DatabaseInterface
 import no.nav.syfo.infrastructure.kafka.KafkaEventDTO
 import no.nav.syfo.util.getCallId
@@ -25,9 +26,7 @@ fun Route.registerJanitorEndpoints(
             val requestDTO = call.receive<JanitorRequestDTO>()
 
             val navident = call.getNAVIdent()
-            val callId = call.getCallId()
             val now = OffsetDateTime.now()
-            val status = "CREATED"
             val eventUUID = UUID.randomUUID().toString()
 
             database.connection.use {
@@ -48,13 +47,13 @@ fun Route.registerJanitorEndpoints(
                 ).use { ps ->
                     ps.setString(1, eventUUID)
                     ps.setString(2, requestDTO.referenceUUID)
-                    ps.setString(3, requestDTO.personident)
+                    ps.setString(3, Personident(requestDTO.personident).value)
                     ps.setString(4, navident)
                     ps.setObject(5, now)
                     ps.setObject(6, now)
-                    ps.setString(7, requestDTO.action)
+                    ps.setString(7, requestDTO.action.name)
                     ps.setString(8, requestDTO.description)
-                    ps.setString(9, status)
+                    ps.setString(9, JanitorStatus.CREATED.name)
                 }
 
                 kafkaProducer.send(
@@ -81,6 +80,16 @@ fun Route.registerJanitorEndpoints(
 data class JanitorRequestDTO(
     val referenceUUID: String,
     val personident: String,
-    val action: String,
+    val action: JanitorAction,
     val description: String,
 )
+
+enum class JanitorAction {
+    LUKK_DIALOGMOTE
+}
+
+enum class JanitorStatus {
+    CREATED,
+    OK,
+    FAILED,
+}
