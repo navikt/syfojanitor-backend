@@ -1,6 +1,15 @@
 # Compiled class file
 *.class
 
+# Idea project files
+*.iml
+.idea/
+
+# Gradle files
+out/
+build/
+.gradle/
+
 # Log file
 *.log
 
