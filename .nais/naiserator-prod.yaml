@@ -64,7 +64,8 @@ spec:
         extra:
           - "NAVident"
         groups:
-          - id: 05b6c0d2-b6db-4440-96b4-4de66c09b3c6 # teamsykefravr
+          - id: "05b6c0d2-b6db-4440-96b4-4de66c09b3c6" # teamsykefravr
+          - id: "7c0dd32a-1896-4e14-96f6-a7eadc73f5f5" # isyfo
   kafka:
     pool: nav-prod
   env:
