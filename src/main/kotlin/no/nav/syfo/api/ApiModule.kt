@@ -20,8 +20,6 @@ import no.nav.syfo.api.auth.installJwtAuthentication
 import no.nav.syfo.api.endpoints.metricEndpoints
 import no.nav.syfo.api.endpoints.podEndpoints
 import no.nav.syfo.infrastructure.NAV_CALL_ID_HEADER
-import no.nav.syfo.infrastructure.clients.veiledertilgang.ForbiddenAccessVeilederException
-import no.nav.syfo.infrastructure.clients.veiledertilgang.VeilederTilgangskontrollClient
 import no.nav.syfo.infrastructure.clients.wellknown.WellKnown
 import no.nav.syfo.infrastructure.database.DatabaseInterface
 import no.nav.syfo.infrastructure.metric.METRICS_REGISTRY
@@ -36,7 +34,6 @@ fun Application.apiModule(
     environment: Environment,
     wellKnownInternalAzureAD: WellKnown,
     database: DatabaseInterface,
-    veilederTilgangskontrollClient: VeilederTilgangskontrollClient,
 ) {
     installMetrics()
     installCallId()
@@ -94,15 +91,7 @@ fun Application.installStatusPages() {
             val consumerClientId = call.getConsumerClientId()
             val logExceptionMessage = "Caught exception, callId=$callId, consumerClientId=$consumerClientId"
             val log = call.application.log
-            when (cause) {
-                is ForbiddenAccessVeilederException -> {
-                    log.warn(logExceptionMessage, cause)
-                }
-
-                else -> {
-                    log.error(logExceptionMessage, cause)
-                }
-            }
+            log.error(logExceptionMessage, cause)
 
             var isUnexpectedException = false
 
@@ -114,10 +103,6 @@ fun Application.installStatusPages() {
 
                     is IllegalArgumentException -> {
                         HttpStatusCode.BadRequest
-                    }
-
-                    is ForbiddenAccessVeilederException -> {
-                        HttpStatusCode.Forbidden
                     }
 
                     else -> {

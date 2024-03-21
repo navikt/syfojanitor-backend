@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: isfrisktilarbeid
+  name: syfojanitor-backend
   namespace: teamsykefravr
   labels:
     team: teamsykefravr
@@ -40,22 +40,12 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: syfomodiaperson
-    outbound:
-      external:
-        - host: "b27apvl220.preprod.local"
-          ports:
-            - port: 1413
-        - host: "login.microsoftonline.com"
-        - host: "pdl-api.dev-fss-pub.nais.io"
-        - host: "dokarkiv.dev-fss-pub.nais.io"
-      rules:
-        - application: istilgangskontroll
+        - application: syfojanitor-frontend
   gcp:
     sqlInstances:
       - type: POSTGRES_15
         databases:
-          - name: isfrisktilarbeid-db
+          - name: syfojanitor-backend-db
         diskAutoresize: true
   azure:
     application:
@@ -64,28 +54,8 @@ spec:
       claims:
         extra:
           - "NAVident"
-  envFrom:
-    - secret: isfrisktilarbeid-serviceuser
   kafka:
     pool: nav-dev
   env:
     - name: KTOR_ENV
       value: "production"
-    - name: MQGATEWAY_NAME
-      value: "MQLS02"
-    - name: MQGATEWAY_HOSTNAME
-      value: "b27apvl220.preprod.local"
-    - name: MQGATEWAY_PORT
-      value: "1413"
-    - name: MQGATEWAY_CHANNEL_NAME
-      value: "Q1_ISFRISKTILARBEID"
-    - name: MQ_QUEUE_NAME
-      value: "QA.Q1_278.IT00_N2_MLD_FRA_ARENA"
-    - name: ISTILGANGSKONTROLL_CLIENT_ID
-      value: "dev-gcp.teamsykefravr.istilgangskontroll"
-    - name: ISTILGANGSKONTROLL_URL
-      value: "http://istilgangskontroll"
-    - name: PDL_CLIENT_ID
-      value: "dev-fss.pdl.pdl-api"
-    - name: PDL_URL
-      value: "https://pdl-api.dev-fss-pub.nais.io/graphql"

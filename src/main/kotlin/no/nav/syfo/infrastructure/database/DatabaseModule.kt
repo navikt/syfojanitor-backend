@@ -9,7 +9,7 @@ fun databaseModule(
 ) = if (isLocal()) {
     applicationDatabase = Database(
         DatabaseConfig(
-            jdbcUrl = "jdbc:postgresql://localhost:5432/isfrisktilarbeid_dev",
+            jdbcUrl = "jdbc:postgresql://localhost:5432/syfojanitor-backend_dev",
             password = "password",
             username = "username",
         )

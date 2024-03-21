@@ -1,6 +1,6 @@
-![Build status](https://github.com/navikt/isfrisktilarbeid/workflows/main/badge.svg?branch=main)
+![Build status](https://github.com/navikt/syfojanitor-backend/workflows/main/badge.svg?branch=main)
 
-# isfrisktilarbeid
+# syfojanitor-backend
 
 Applikasjon for sending av vedtak for friskmelding til arbeidsformidling (§8-5). § 8-5 gjelder når man er såkalt
 yrkesutfør.

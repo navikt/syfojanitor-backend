@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: isfrisktilarbeid
+  name: syfojanitor-backend
   namespace: teamsykefravr
   labels:
     team: teamsykefravr
@@ -55,7 +55,7 @@ spec:
     sqlInstances:
       - type: POSTGRES_15
         databases:
-          - name: isfrisktilarbeid-db
+          - name: syfojanitor-backend-db
         diskAutoresize: true
   azure:
     application:
@@ -64,28 +64,8 @@ spec:
       claims:
         extra:
           - "NAVident"
-  envFrom:
-    - secret: isfrisktilarbeid-serviceuser
   kafka:
     pool: nav-prod
   env:
     - name: KTOR_ENV
       value: "production"
-    - name: MQGATEWAY_NAME
-      value: "MPLS02"
-    - name: MQGATEWAY_HOSTNAME
-      value: "mpls02.adeo.no"
-    - name: MQGATEWAY_PORT
-      value: "1414"
-    - name: MQGATEWAY_CHANNEL_NAME
-      value: "P_ISFRISKTILARBEID"
-    - name: MQ_QUEUE_NAME
-      value: "QA.P_278.IT00_N2_MLD_FRA_ARENA"
-    - name: ISTILGANGSKONTROLL_CLIENT_ID
-      value: "prod-gcp.teamsykefravr.istilgangskontroll"
-    - name: ISTILGANGSKONTROLL_URL
-      value: "http://istilgangskontroll"
-    - name: PDL_CLIENT_ID
-      value: "prod-fss.pdl.pdl-api"
-    - name: PDL_URL
-      value: "https://pdl-api.prod-fss-pub.nais.io/graphql"
