@@ -1,0 +1,53 @@
+name: kafka
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/kafka-syfojanitor.yaml'
+      - '.nais/kafka/**'
+
+permissions:
+  id-token: write
+
+jobs:
+  deploy-kafka-syfojanitor-dev:
+    name: Deploy Kafka topics to dev-gcp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy syfojanitor-event topic to dev
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/kafka/syfojanitor-event.yaml
+          VARS: .nais/kafka/dev.json
+
+      - name: Deploy syfojanitor-status topic to dev
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/kafka/syfojanitor-status.yaml
+          VARS: .nais/kafka/dev.json
+
+  deploy-kafka-syfojanitor-prod:
+    name: Deploy Kafka topics to prod-gcp
+    needs: deploy-kafka-syfojanitor-dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy syfojanitor-event topic to prod
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: prod-gcp
+          RESOURCE: .nais/kafka/syfojanitor-event.yaml
+          VARS: .nais/kafka/prod.json
+
+      - name: Deploy syfojanitor-status topic to prod
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: prod-gcp
+          RESOURCE: .nais/kafka/syfojanitor-status.yaml
+          VARS: .nais/kafka/prod.json
