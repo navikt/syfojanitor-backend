@@ -6,9 +6,6 @@ import io.ktor.server.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import no.nav.syfo.api.apiModule
-import no.nav.syfo.infrastructure.clients.azuread.AzureAdClient
-import no.nav.syfo.infrastructure.clients.pdl.PdlClient
-import no.nav.syfo.infrastructure.clients.veiledertilgang.VeilederTilgangskontrollClient
 import no.nav.syfo.infrastructure.clients.wellknown.getWellKnown
 import no.nav.syfo.infrastructure.database.applicationDatabase
 import no.nav.syfo.infrastructure.database.databaseModule
@@ -24,18 +21,6 @@ fun main() {
 
     val wellKnownInternalAzureAD = getWellKnown(
         wellKnownUrl = environment.azure.appWellKnownUrl
-    )
-    val azureAdClient = AzureAdClient(
-        azureEnvironment = environment.azure
-    )
-    val veilederTilgangskontrollClient =
-        VeilederTilgangskontrollClient(
-            azureAdClient = azureAdClient,
-            clientEnvironment = environment.clients.istilgangskontroll
-        )
-    val pdlClient = PdlClient(
-        azureAdClient = azureAdClient,
-        pdlEnvironment = environment.clients.pdl,
     )
     val applicationEngineEnvironment =
         applicationEngineEnvironment {
@@ -53,7 +38,6 @@ fun main() {
                     environment = environment,
                     wellKnownInternalAzureAD = wellKnownInternalAzureAD,
                     database = applicationDatabase,
-                    veilederTilgangskontrollClient = veilederTilgangskontrollClient,
                 )
             }
         }
