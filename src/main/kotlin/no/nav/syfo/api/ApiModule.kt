@@ -19,6 +19,7 @@ import no.nav.syfo.api.auth.JwtIssuerType
 import no.nav.syfo.api.auth.installJwtAuthentication
 import no.nav.syfo.api.endpoints.metricEndpoints
 import no.nav.syfo.api.endpoints.podEndpoints
+import no.nav.syfo.api.endpoints.registerJanitorEndpoints
 import no.nav.syfo.infrastructure.NAV_CALL_ID_HEADER
 import no.nav.syfo.infrastructure.clients.wellknown.WellKnown
 import no.nav.syfo.infrastructure.database.DatabaseInterface
@@ -54,6 +55,7 @@ fun Application.apiModule(
         podEndpoints(applicationState = applicationState, database = database)
         metricEndpoints()
         authenticate(JwtIssuerType.INTERNAL_AZUREAD.name) {
+            registerJanitorEndpoints(database)
         }
     }
 }
