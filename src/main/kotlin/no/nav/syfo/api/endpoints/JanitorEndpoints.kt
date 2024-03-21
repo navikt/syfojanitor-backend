@@ -47,7 +47,7 @@ fun Route.registerJanitorEndpoints(
                     ps.setString(4, navIdent)
                     ps.setObject(5, now)
                     ps.setObject(6, now)
-                    ps.setString(7, requestDTO.type)
+                    ps.setString(7, requestDTO.action)
                     ps.setString(8, requestDTO.description)
                     ps.setString(9, status)
                 }
@@ -61,6 +61,6 @@ fun Route.registerJanitorEndpoints(
 data class JanitorRequestDTO(
     val uuid: String,
     val personident: String,
-    val type: String,
+    val action: String,
     val description: String,
 )
