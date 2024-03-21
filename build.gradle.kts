@@ -16,6 +16,7 @@ object Version {
     const val SPEK = "2.0.19"
     const val MOCKK = "1.13.9"
     const val NIMBUS_JOSE_JWT = "9.37.3"
+    const val KAFKA = "3.6.1"
     const val KLUENT = "1.73"
 }
 
@@ -50,6 +51,12 @@ dependencies {
     // Metrics and Prometheus
     implementation("io.ktor:ktor-server-metrics-micrometer:${Version.KTOR}")
     implementation("io.micrometer:micrometer-registry-prometheus:${Version.MICROMETER_REGISTRY}")
+
+    // Kafka
+    val excludeLog4j = fun ExternalModuleDependency.() {
+        exclude(group = "log4j")
+    }
+    implementation("org.apache.kafka:kafka_2.13:${Version.KAFKA}", excludeLog4j)
 
     // Database
     implementation("org.postgresql:postgresql:${Version.POSTGRES}")

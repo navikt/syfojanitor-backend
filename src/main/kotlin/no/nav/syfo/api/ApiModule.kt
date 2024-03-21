@@ -23,10 +23,13 @@ import no.nav.syfo.api.endpoints.registerJanitorEndpoints
 import no.nav.syfo.infrastructure.NAV_CALL_ID_HEADER
 import no.nav.syfo.infrastructure.clients.wellknown.WellKnown
 import no.nav.syfo.infrastructure.database.DatabaseInterface
+import no.nav.syfo.infrastructure.kafka.KafkaEventDTO
+import no.nav.syfo.infrastructure.kafka.kafkaAivenProducerConfig
 import no.nav.syfo.infrastructure.metric.METRICS_REGISTRY
 import no.nav.syfo.util.configure
 import no.nav.syfo.util.getCallId
 import no.nav.syfo.util.getConsumerClientId
+import org.apache.kafka.clients.producer.KafkaProducer
 import java.time.Duration
 import java.util.*
 
@@ -50,12 +53,18 @@ fun Application.apiModule(
             )
         )
     )
+    val kafkaProducer = KafkaProducer<String, KafkaEventDTO>(
+        kafkaAivenProducerConfig<KafkaEventDTO>(kafkaEnvironment = environment.kafka)
+    )
 
     routing {
         podEndpoints(applicationState = applicationState, database = database)
         metricEndpoints()
         authenticate(JwtIssuerType.INTERNAL_AZUREAD.name) {
-            registerJanitorEndpoints(database)
+            registerJanitorEndpoints(
+                database,
+                kafkaProducer,
+            )
         }
     }
 }
