@@ -1,11 +1,29 @@
 package no.nav.syfo.infrastructure.kafka
 
 import org.apache.kafka.clients.CommonClientConfigs
+import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.config.SslConfigs
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import java.util.*
+
+inline fun <reified Deserializer> kafkaAivenConsumerConfig(
+    kafkaEnvironment: KafkaEnvironment,
+): Properties {
+    return Properties().apply {
+        putAll(commonKafkaAivenConfig(kafkaEnvironment))
+
+        this[ConsumerConfig.GROUP_ID_CONFIG] = "syfojanitor-backend-v1"
+        this[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java.canonicalName
+        this[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
+        this[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = "false" // we commit manually if db persistence is successful
+        this[ConsumerConfig.MAX_POLL_RECORDS_CONFIG] = "1000"
+        this[ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG] = "" + (10 * 1024 * 1024)
+        this[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = Deserializer::class.java.canonicalName
+    }
+}
 
 inline fun <reified Serializer> kafkaAivenProducerConfig(
     kafkaEnvironment: KafkaEnvironment,

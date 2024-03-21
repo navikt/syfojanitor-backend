@@ -9,7 +9,12 @@ import no.nav.syfo.api.apiModule
 import no.nav.syfo.infrastructure.clients.wellknown.getWellKnown
 import no.nav.syfo.infrastructure.database.applicationDatabase
 import no.nav.syfo.infrastructure.database.databaseModule
+import no.nav.syfo.infrastructure.kafka.KafkaStatusDTO
+import no.nav.syfo.infrastructure.kafka.KafkaStatusDTODeserializer
+import no.nav.syfo.infrastructure.kafka.kafkaAivenConsumerConfig
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.slf4j.LoggerFactory
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 const val applicationPort = 8080
@@ -46,6 +51,33 @@ fun main() {
     applicationEngineEnvironment.monitor.subscribe(ApplicationStarted) {
         applicationState.ready = true
         logger.info("Application is ready, running Java VM ${Runtime.version()}")
+        launchBackgroundTask(
+            applicationState = applicationState
+        ) {
+            val topic = "teamsykefravr.syfojanitor-status"
+            logger.info("Launcing background task")
+
+            val kafkaConsumer = KafkaConsumer<String, KafkaStatusDTO>(
+                kafkaAivenConsumerConfig<KafkaStatusDTODeserializer>(
+                    kafkaEnvironment = environment.kafka,
+                )
+            )
+
+            kafkaConsumer.subscribe(
+                listOf(topic)
+            )
+
+            while (applicationState.ready) {
+                val records = kafkaConsumer.poll(Duration.ofMillis(1000))
+                if (records.count() > 0) {
+                    records.forEach { record ->
+                        logger.info("Received record: ${record.value().eventUUID}")
+                        // TODO: Update status in database
+                    }
+                    kafkaConsumer.commitSync()
+                }
+            }
+        }
     }
 
     val server = embeddedServer(
