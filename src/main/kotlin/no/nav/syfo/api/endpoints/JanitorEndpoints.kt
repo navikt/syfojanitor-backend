@@ -30,7 +30,6 @@ fun Route.registerJanitorEndpoints(
             val status = "CREATED"
             val eventUUID = UUID.randomUUID().toString()
 
-
             database.connection.use {
                 it.prepareStatement(
                     """INSERT INTO event (
