@@ -53,6 +53,7 @@ fun Route.registerJanitorEndpoints(
                     ps.setString(7, requestDTO.action.name)
                     ps.setString(8, requestDTO.description)
                     ps.setString(9, JanitorStatus.CREATED.name)
+                    ps.executeUpdate()
                 }
 
                 kafkaProducer.send(
