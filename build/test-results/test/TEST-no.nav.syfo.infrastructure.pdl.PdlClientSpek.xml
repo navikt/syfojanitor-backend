@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="no.nav.syfo.infrastructure.pdl.PdlClientSpek" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-03-20T14:41:13" hostname="DESKTOP-UB50EIJ" time="7.376">
+  <properties/>
+  <testcase name="returns person from pdl" classname="no.nav.syfo.infrastructure.pdl.PdlClientSpek" time="0.785"/>
+  <testcase name="returns fullname from person" classname="no.nav.syfo.infrastructure.pdl.PdlClientSpek" time="0.031"/>
+  <testcase name="returns full name when person has name with dashes" classname="no.nav.syfo.infrastructure.pdl.PdlClientSpek" time="0.031"/>
+  <testcase name="throws exception when person is missing name" classname="no.nav.syfo.infrastructure.pdl.PdlClientSpek" time="2.704"/>
+  <testcase name="throws exception when pdl has error" classname="no.nav.syfo.infrastructure.pdl.PdlClientSpek" time="1.548"/>
+  <testcase name="throws exception when AzureAdClient has error" classname="no.nav.syfo.infrastructure.pdl.PdlClientSpek" time="2.264"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
