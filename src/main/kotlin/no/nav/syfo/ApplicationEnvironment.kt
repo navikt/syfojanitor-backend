@@ -3,7 +3,7 @@ package no.nav.syfo
 import no.nav.syfo.infrastructure.AzureEnvironment
 import no.nav.syfo.infrastructure.database.DatabaseEnvironment
 
-const val NAIS_DATABASE_ENV_PREFIX = "NAIS_DATABASE_SYFOJANITOR-BACKEND_SYFOJANITOR-BACKEND_DB"
+const val NAIS_DATABASE_ENV_PREFIX = "NAIS_DATABASE_SYFOJANITOR_BACKEND_SYFOJANITOR_BACKEND_DB"
 
 data class Environment(
     val database: DatabaseEnvironment = DatabaseEnvironment(
