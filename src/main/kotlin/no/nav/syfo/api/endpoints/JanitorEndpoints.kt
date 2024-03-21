@@ -8,7 +8,6 @@ import io.ktor.server.routing.*
 import no.nav.syfo.domain.Personident
 import no.nav.syfo.infrastructure.database.DatabaseInterface
 import no.nav.syfo.infrastructure.kafka.KafkaEventDTO
-import no.nav.syfo.util.getCallId
 import no.nav.syfo.util.getNAVIdent
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
