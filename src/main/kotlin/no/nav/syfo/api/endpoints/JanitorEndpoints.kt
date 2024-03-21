@@ -28,7 +28,16 @@ fun Route.registerJanitorEndpoints(
             database.connection.use {
                 it.prepareStatement(
                     """INSERT INTO event (
-    id, uuid, reference_uuid, personident, navident, created_at, updated_at, type, description, status             TEXT        NOT NULL                    
+                        id, 
+                        uuid, 
+                        reference_uuid, 
+                        personident, 
+                        navident, 
+                        created_at, 
+                        updated_at, 
+                        type, 
+                        description, 
+                        status                    
                     ) values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """.trimMargin()
                 ).use { ps ->
