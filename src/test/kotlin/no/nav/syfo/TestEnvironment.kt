@@ -12,8 +12,8 @@ fun testEnvironment() = Environment(
         password = "password",
     ),
     azure = AzureEnvironment(
-        appClientId = "isarbeidsuforhet-client-id",
-        appClientSecret = "isarbeidsuforhet-secret",
+        appClientId = "syfojanitor-client-id",
+        appClientSecret = "syfojanitor-secret",
         appWellKnownUrl = "wellknown",
         openidConfigTokenEndpoint = "azureOpenIdTokenEndpoint",
     ),
