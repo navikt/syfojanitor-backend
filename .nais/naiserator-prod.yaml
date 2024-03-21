@@ -40,17 +40,7 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: syfomodiaperson
-    outbound:
-      external:
-        - host: "mpls02.adeo.no"
-          ports:
-            - port: 1413
-        - host: "login.microsoftonline.com"
-        - host: "pdl-api.prod-fss-pub.nais.io"
-        - host: "dokarkiv.prod-fss-pub.nais.io"
-      rules:
-        - application: istilgangskontroll
+        - application: syfojanitor-frontend
   gcp:
     sqlInstances:
       - type: POSTGRES_15
