@@ -10,8 +10,7 @@ import no.nav.syfo.util.getNAVIdent
 
 const val janitorApiBasePath = "/api/v1/janitor"
 
-fun Route.registerJanitorEndpoints(
-) {
+fun Route.registerJanitorEndpoints() {
     route(janitorApiBasePath) {
         post {
             val requestDTO = call.receive<JanitorRequestDTO>()
