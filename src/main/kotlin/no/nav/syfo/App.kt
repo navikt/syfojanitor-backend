@@ -7,6 +7,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import no.nav.syfo.api.apiModule
 import no.nav.syfo.infrastructure.clients.wellknown.getWellKnown
+import no.nav.syfo.infrastructure.database.EventRepository
 import no.nav.syfo.infrastructure.database.applicationDatabase
 import no.nav.syfo.infrastructure.database.databaseModule
 import no.nav.syfo.infrastructure.kafka.KafkaStatusConsumer
@@ -24,6 +25,8 @@ fun main() {
         wellKnownUrl = environment.azure.appWellKnownUrl
     )
 
+    lateinit var eventRepository: EventRepository
+
     val applicationEngineEnvironment =
         applicationEngineEnvironment {
             log = logger
@@ -35,11 +38,15 @@ fun main() {
                 databaseModule(
                     databaseEnvironment = environment.database,
                 )
+
+                eventRepository = EventRepository(database = applicationDatabase)
+
                 apiModule(
                     applicationState = applicationState,
                     environment = environment,
                     wellKnownInternalAzureAD = wellKnownInternalAzureAD,
                     database = applicationDatabase,
+                    eventRepository = eventRepository,
                 )
             }
         }
@@ -48,7 +55,7 @@ fun main() {
         applicationState.ready = true
         logger.info("Application is ready, running Java VM ${Runtime.version()}")
         val kafkaStatusConsumer = KafkaStatusConsumer(
-            database = applicationDatabase,
+            eventRepository = eventRepository,
             kafkaEnvironment = environment.kafka,
             applicationState = applicationState
         )

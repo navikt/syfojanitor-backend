@@ -1,18 +1,17 @@
 package no.nav.syfo.infrastructure.kafka
 
 import no.nav.syfo.ApplicationState
-import no.nav.syfo.infrastructure.database.DatabaseInterface
+import no.nav.syfo.infrastructure.database.EventRepository
 import no.nav.syfo.launchBackgroundTask
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.Duration
-import java.time.OffsetDateTime
 
 class KafkaStatusConsumer(
     private val kafkaEnvironment: KafkaEnvironment,
     private val applicationState: ApplicationState,
-    private val database: DatabaseInterface
+    private val eventRepository: EventRepository,
 ) {
 
     fun launch() {
@@ -34,22 +33,10 @@ class KafkaStatusConsumer(
             while (applicationState.ready) {
                 val records = kafkaConsumer.poll(Duration.ofMillis(1000))
                 if (records.count() > 0) {
-                    database.connection.use { connection ->
-                        records.forEach { record ->
-                            val kafkaStatusDTO = record.value()
-                            logger.info("Received record: ${kafkaStatusDTO.eventUUID} with status: ${kafkaStatusDTO.status}")
-                            connection.prepareStatement(
-                                """
-                                UPDATE EVENT SET status = ?, updated_at = ? WHERE uuid = ?
-                                """.trimMargin()
-                            ).use {
-                                it.setString(1, kafkaStatusDTO.status.name)
-                                it.setObject(2, OffsetDateTime.now())
-                                it.setString(3, kafkaStatusDTO.eventUUID)
-                                it.executeUpdate()
-                            }
-                        }
-                        connection.commit()
+                    records.forEach { record ->
+                        val kafkaStatusDTO = record.value()
+                        logger.info("Received record: ${kafkaStatusDTO.eventUUID} with status: ${kafkaStatusDTO.status}")
+                        eventRepository.updateStatus(kafkaStatusDTO.eventUUID, kafkaStatusDTO.status)
                     }
                     kafkaConsumer.commitSync()
                 }
