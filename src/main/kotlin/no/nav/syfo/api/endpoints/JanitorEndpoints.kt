@@ -5,74 +5,58 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import no.nav.syfo.domain.Event
 import no.nav.syfo.domain.Personident
-import no.nav.syfo.infrastructure.database.DatabaseInterface
+import no.nav.syfo.infrastructure.database.EventRepository
 import no.nav.syfo.infrastructure.kafka.KafkaEventDTO
 import no.nav.syfo.util.getNAVIdent
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.util.*
 
 const val janitorApiBasePath = "/api/v1/janitor"
 
 fun Route.registerJanitorEndpoints(
-    database: DatabaseInterface,
+    eventRepository: EventRepository,
     kafkaProducer: KafkaProducer<String, KafkaEventDTO>,
 ) {
     route(janitorApiBasePath) {
         post {
             val requestDTO = call.receive<JanitorRequestDTO>()
-
             val navident = call.getNAVIdent()
-            val now = OffsetDateTime.now()
-            val eventUUID = UUID.randomUUID().toString()
+            val event = Event(
+                uuid = UUID.randomUUID(),
+                referenceUUID = UUID.fromString(requestDTO.referenceUUID),
+                personident = Personident(requestDTO.personident),
+                navident = navident,
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now(),
+                action = requestDTO.action,
+                description = requestDTO.description,
+                status = JanitorStatus.CREATED,
+            )
 
-            database.connection.use {
-                it.prepareStatement(
-                    """INSERT INTO event (
-                        id, 
-                        uuid, 
-                        reference_uuid, 
-                        personident, 
-                        navident, 
-                        created_at, 
-                        updated_at, 
-                        type, 
-                        description, 
-                        status                    
-                    ) values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """.trimMargin()
-                ).use { ps ->
-                    ps.setString(1, eventUUID)
-                    ps.setString(2, requestDTO.referenceUUID)
-                    ps.setString(3, Personident(requestDTO.personident).value)
-                    ps.setString(4, navident)
-                    ps.setObject(5, now)
-                    ps.setObject(6, now)
-                    ps.setString(7, requestDTO.action.name)
-                    ps.setString(8, requestDTO.description)
-                    ps.setString(9, JanitorStatus.CREATED.name)
-                    ps.executeUpdate()
-                }
-
-                kafkaProducer.send(
-                    ProducerRecord(
-                        "teamsykefravr.syfojanitor-event",
-                        eventUUID,
-                        KafkaEventDTO(
-                            referenceUUID = requestDTO.referenceUUID,
-                            navident = navident,
-                            eventUUID = eventUUID,
-                            personident = requestDTO.personident,
-                            action = requestDTO.action,
-                        )
+            eventRepository.createEvent(event)
+            kafkaProducer.send(
+                ProducerRecord(
+                    "teamsykefravr.syfojanitor-event",
+                    event.uuid.toString(),
+                    KafkaEventDTO(
+                        referenceUUID = requestDTO.referenceUUID,
+                        navident = navident,
+                        eventUUID = event.uuid.toString(),
+                        personident = requestDTO.personident,
+                        action = requestDTO.action,
                     )
-                ).get()
+                )
+            ).get()
 
-                it.commit()
-            }
             call.respond(HttpStatusCode.Created)
+        }
+
+        get {
+            call.respond(eventRepository.getEvents())
         }
     }
 }

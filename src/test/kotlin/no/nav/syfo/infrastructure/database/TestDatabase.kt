@@ -26,6 +26,21 @@ class TestDatabase : DatabaseInterface {
     }
 }
 
+fun TestDatabase.dropData() {
+    val queryList = listOf(
+        """
+        DELETE FROM EVENT
+        """.trimIndent(),
+    )
+
+    this.connection.use { connection ->
+        queryList.forEach { query ->
+            connection.prepareStatement(query).execute()
+        }
+        connection.commit()
+    }
+}
+
 class TestDatabaseNotResponding : DatabaseInterface {
 
     override val connection: Connection

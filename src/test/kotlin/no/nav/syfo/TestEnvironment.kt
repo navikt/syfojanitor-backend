@@ -2,6 +2,7 @@ package no.nav.syfo
 
 import no.nav.syfo.infrastructure.AzureEnvironment
 import no.nav.syfo.infrastructure.database.DatabaseEnvironment
+import no.nav.syfo.infrastructure.kafka.KafkaEnvironment
 
 fun testEnvironment() = Environment(
     database = DatabaseEnvironment(
@@ -16,6 +17,13 @@ fun testEnvironment() = Environment(
         appClientSecret = "syfojanitor-secret",
         appWellKnownUrl = "wellknown",
         openidConfigTokenEndpoint = "azureOpenIdTokenEndpoint",
+    ),
+    kafka = KafkaEnvironment(
+        aivenBootstrapServers = "kafkaBootstrapServers",
+        aivenCredstorePassword = "credstorepassord",
+        aivenKeystoreLocation = "keystore",
+        aivenSecurityProtocol = "SSL",
+        aivenTruststoreLocation = "truststore",
     ),
     electorPath = "electorPath",
 )

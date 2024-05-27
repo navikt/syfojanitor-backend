@@ -23,6 +23,7 @@ import no.nav.syfo.api.endpoints.registerJanitorEndpoints
 import no.nav.syfo.infrastructure.NAV_CALL_ID_HEADER
 import no.nav.syfo.infrastructure.clients.wellknown.WellKnown
 import no.nav.syfo.infrastructure.database.DatabaseInterface
+import no.nav.syfo.infrastructure.database.EventRepository
 import no.nav.syfo.infrastructure.kafka.KafkaEventDTO
 import no.nav.syfo.infrastructure.kafka.KafkaEventDTOSerializer
 import no.nav.syfo.infrastructure.kafka.kafkaAivenProducerConfig
@@ -39,6 +40,7 @@ fun Application.apiModule(
     environment: Environment,
     wellKnownInternalAzureAD: WellKnown,
     database: DatabaseInterface,
+    eventRepository: EventRepository,
 ) {
     installMetrics()
     installCallId()
@@ -63,7 +65,7 @@ fun Application.apiModule(
         metricEndpoints()
         authenticate(JwtIssuerType.INTERNAL_AZUREAD.name) {
             registerJanitorEndpoints(
-                database,
+                eventRepository = eventRepository,
                 kafkaProducer,
             )
         }
