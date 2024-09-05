@@ -50,7 +50,7 @@ fun Route.registerJanitorEndpoints(
                         action = requestDTO.action,
                     )
                 )
-            ).get()
+            ).also { it.get() }
 
             call.respond(HttpStatusCode.Created)
         }
