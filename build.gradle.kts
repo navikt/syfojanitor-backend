@@ -4,24 +4,24 @@ group = "no.nav.syfo"
 version = "0.0.1"
 
 object Version {
-    const val FLYWAY = "10.8.1"
+    const val FLYWAY = "10.15.2"
     const val HIKARI = "5.1.0"
-    const val POSTGRES = "42.7.2"
-    const val POSTGRES_EMBEDDED = "2.0.6"
-    const val LOGBACK = "1.4.14"
+    const val POSTGRES = "42.7.3"
+    const val POSTGRES_EMBEDDED = "2.0.7"
+    const val LOGBACK = "1.5.6"
     const val LOGSTASH_ENCODER = "7.4"
     const val MICROMETER_REGISTRY = "1.12.2"
-    const val JACKSON_DATATYPE = "2.16.1"
-    const val KTOR = "2.3.8"
+    const val JACKSON_DATATYPE = "2.17.2"
+    const val KTOR = "2.3.12"
     const val SPEK = "2.0.19"
-    const val MOCKK = "1.13.9"
-    const val NIMBUS_JOSE_JWT = "9.37.3"
-    const val KAFKA = "3.6.1"
+    const val MOCKK = "1.13.11"
+    const val NIMBUS_JOSE_JWT = "9.40"
+    const val KAFKA = "3.7.0"
     const val KLUENT = "1.73"
 }
 
 plugins {
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "2.0.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
@@ -78,7 +78,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 tasks {
