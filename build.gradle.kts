@@ -1,28 +1,24 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 group = "no.nav.syfo"
 version = "0.0.1"
 
-object Version {
-    const val FLYWAY = "10.15.2"
-    const val HIKARI = "5.1.0"
-    const val POSTGRES = "42.7.3"
-    const val POSTGRES_EMBEDDED = "2.0.7"
-    const val LOGBACK = "1.5.6"
-    const val LOGSTASH_ENCODER = "7.4"
-    const val MICROMETER_REGISTRY = "1.12.2"
-    const val JACKSON_DATATYPE = "2.17.2"
-    const val KTOR = "2.3.12"
-    const val SPEK = "2.0.19"
-    const val MOCKK = "1.13.11"
-    const val NIMBUS_JOSE_JWT = "9.40"
-    const val KAFKA = "3.7.0"
-    const val KLUENT = "1.73"
-}
+val flyway = "10.15.2"
+val hikari = "5.1.0"
+val postgres = "42.7.3"
+val postgresEmbedded = "2.0.7"
+val logback = "1.5.6"
+val logstashEncoder = "7.4"
+val micrometerRegistry = "1.12.2"
+val jacksonDatatype = "2.17.2"
+val ktor = "2.3.12"
+val spek = "2.0.19"
+val mockk = "1.13.11"
+val nimbusJoseJwt = "9.40"
+val kafka = "3.7.0"
+val kluent = "1.73"
 
 plugins {
-    kotlin("jvm") version "2.0.10"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin("jvm") version "2.0.20"
+    id("com.gradleup.shadow") version "8.3.2"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
 
@@ -35,46 +31,46 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
-    implementation("io.ktor:ktor-client-apache:${Version.KTOR}")
-    implementation("io.ktor:ktor-client-content-negotiation:${Version.KTOR}")
-    implementation("io.ktor:ktor-serialization-jackson:${Version.KTOR}")
-    implementation("io.ktor:ktor-server-auth-jwt:${Version.KTOR}")
-    implementation("io.ktor:ktor-server-call-id:${Version.KTOR}")
-    implementation("io.ktor:ktor-server-content-negotiation:${Version.KTOR}")
-    implementation("io.ktor:ktor-server-netty:${Version.KTOR}")
-    implementation("io.ktor:ktor-server-status-pages:${Version.KTOR}")
+    implementation("io.ktor:ktor-client-apache:$ktor")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor")
+    implementation("io.ktor:ktor-serialization-jackson:$ktor")
+    implementation("io.ktor:ktor-server-auth-jwt:$ktor")
+    implementation("io.ktor:ktor-server-call-id:$ktor")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktor")
+    implementation("io.ktor:ktor-server-netty:$ktor")
+    implementation("io.ktor:ktor-server-status-pages:$ktor")
 
     // Logging
-    implementation("ch.qos.logback:logback-classic:${Version.LOGBACK}")
-    implementation("net.logstash.logback:logstash-logback-encoder:${Version.LOGSTASH_ENCODER}")
+    implementation("ch.qos.logback:logback-classic:$logback")
+    implementation("net.logstash.logback:logstash-logback-encoder:$logstashEncoder")
 
     // Metrics and Prometheus
-    implementation("io.ktor:ktor-server-metrics-micrometer:${Version.KTOR}")
-    implementation("io.micrometer:micrometer-registry-prometheus:${Version.MICROMETER_REGISTRY}")
+    implementation("io.ktor:ktor-server-metrics-micrometer:$ktor")
+    implementation("io.micrometer:micrometer-registry-prometheus:$micrometerRegistry")
 
     // Kafka
     val excludeLog4j = fun ExternalModuleDependency.() {
         exclude(group = "log4j")
     }
-    implementation("org.apache.kafka:kafka_2.13:${Version.KAFKA}", excludeLog4j)
+    implementation("org.apache.kafka:kafka_2.13:$kafka", excludeLog4j)
 
     // Database
-    implementation("org.postgresql:postgresql:${Version.POSTGRES}")
-    implementation("com.zaxxer:HikariCP:${Version.HIKARI}")
-    implementation("org.flywaydb:flyway-database-postgresql:${Version.FLYWAY}")
-    testImplementation("io.zonky.test:embedded-postgres:${Version.POSTGRES_EMBEDDED}")
+    implementation("org.postgresql:postgresql:$postgres")
+    implementation("com.zaxxer:HikariCP:$hikari")
+    implementation("org.flywaydb:flyway-database-postgresql:$flyway")
+    testImplementation("io.zonky.test:embedded-postgres:$postgresEmbedded")
 
     // (De-)serialization
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${Version.JACKSON_DATATYPE}")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatype")
 
     // Tests
-    testImplementation("io.ktor:ktor-server-tests:${Version.KTOR}")
-    testImplementation("io.mockk:mockk:${Version.MOCKK}")
-    testImplementation("io.ktor:ktor-client-mock:${Version.KTOR}")
-    testImplementation("com.nimbusds:nimbus-jose-jwt:${Version.NIMBUS_JOSE_JWT}")
-    testImplementation("org.amshove.kluent:kluent:${Version.KLUENT}")
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Version.SPEK}")
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Version.SPEK}")
+    testImplementation("io.ktor:ktor-server-tests:$ktor")
+    testImplementation("io.mockk:mockk:$mockk")
+    testImplementation("io.ktor:ktor-client-mock:$ktor")
+    testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwt")
+    testImplementation("org.amshove.kluent:kluent:$kluent")
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spek")
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spek")
 }
 
 kotlin {
@@ -82,7 +78,7 @@ kotlin {
 }
 
 tasks {
-    withType<Jar> {
+    jar {
         manifest.attributes["Main-Class"] = "no.nav.syfo.AppKt"
     }
 
@@ -92,14 +88,14 @@ tasks {
         }
     }
 
-    withType<ShadowJar> {
+    shadowJar {
         mergeServiceFiles()
         archiveBaseName.set("app")
         archiveClassifier.set("")
         archiveVersion.set("")
     }
 
-    withType<Test> {
+    test {
         useJUnitPlatform {
             includeEngines("spek2")
         }
