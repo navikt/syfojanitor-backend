@@ -7,17 +7,17 @@ val postgres = "42.7.3"
 val postgresEmbedded = "2.0.7"
 val logback = "1.5.6"
 val logstashEncoder = "7.4"
-val micrometerRegistry = "1.12.2"
-val jacksonDatatype = "2.17.2"
-val ktor = "2.3.12"
+val micrometerRegistry = "1.12.8"
+val jacksonDatatype = "2.18.0"
+val ktor = "3.0.2"
 val spek = "2.0.19"
-val mockk = "1.13.11"
-val nimbusJoseJwt = "9.40"
-val kafka = "3.7.0"
+val mockk = "1.13.12"
+val nimbusJoseJwt = "9.47"
+val kafka = "3.9.0"
 val kluent = "1.73"
 
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.0.21"
     id("com.gradleup.shadow") version "8.3.2"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
@@ -53,6 +53,26 @@ dependencies {
         exclude(group = "log4j")
     }
     implementation("org.apache.kafka:kafka_2.13:$kafka", excludeLog4j)
+    constraints {
+        implementation("org.apache.zookeeper:zookeeper") {
+            because("org.apache.kafka:kafka_2.13:$kafka -> https://www.cve.org/CVERecord?id=CVE-2023-44981")
+            version {
+                require("3.9.3")
+            }
+        }
+        implementation("org.bitbucket.b_c:jose4j") {
+            because("org.apache.kafka:kafka_2.13:$kafka -> https://github.com/advisories/GHSA-6qvw-249j-h44c")
+            version {
+                require("0.9.6")
+            }
+        }
+        implementation("org.apache.commons:commons-compress") {
+            because("org.apache.commons:commons-compress:1.22 -> https://www.cve.org/CVERecord?id=CVE-2012-2098")
+            version {
+                require("1.27.1")
+            }
+        }
+    }
 
     // Database
     implementation("org.postgresql:postgresql:$postgres")
@@ -64,7 +84,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatype")
 
     // Tests
-    testImplementation("io.ktor:ktor-server-tests:$ktor")
+    testImplementation("io.ktor:ktor-server-test-host:$ktor")
     testImplementation("io.mockk:mockk:$mockk")
     testImplementation("io.ktor:ktor-client-mock:$ktor")
     testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwt")
