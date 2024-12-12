@@ -27,44 +27,48 @@ fun main() {
 
     lateinit var eventRepository: EventRepository
 
-    val applicationEngineEnvironment =
-        applicationEngineEnvironment {
-            log = logger
-            config = HoconApplicationConfig(ConfigFactory.load())
-            connector {
-                port = applicationPort
-            }
-            module {
-                databaseModule(
-                    databaseEnvironment = environment.database,
-                )
-
-                eventRepository = EventRepository(database = applicationDatabase)
-
-                apiModule(
-                    applicationState = applicationState,
-                    environment = environment,
-                    wellKnownInternalAzureAD = wellKnownInternalAzureAD,
-                    database = applicationDatabase,
-                    eventRepository = eventRepository,
-                )
-            }
-        }
-
-    applicationEngineEnvironment.monitor.subscribe(ApplicationStarted) {
-        applicationState.ready = true
-        logger.info("Application is ready, running Java VM ${Runtime.version()}")
-        val kafkaStatusConsumer = KafkaStatusConsumer(
-            eventRepository = eventRepository,
-            kafkaEnvironment = environment.kafka,
-            applicationState = applicationState
-        )
-        kafkaStatusConsumer.launch()
+    val applicationEnvironment = applicationEnvironment {
+        log = logger
+        config = HoconApplicationConfig(ConfigFactory.load())
     }
 
     val server = embeddedServer(
-        factory = Netty,
-        environment = applicationEngineEnvironment
+        Netty,
+        environment = applicationEnvironment,
+        configure = {
+            connector {
+                port = applicationPort
+            }
+            connectionGroupSize = 8
+            workerGroupSize = 8
+            callGroupSize = 16
+        },
+
+        module = {
+            databaseModule(
+                databaseEnvironment = environment.database,
+            )
+
+            eventRepository = EventRepository(database = applicationDatabase)
+
+            apiModule(
+                applicationState = applicationState,
+                environment = environment,
+                wellKnownInternalAzureAD = wellKnownInternalAzureAD,
+                database = applicationDatabase,
+                eventRepository = eventRepository,
+            )
+            monitor.subscribe(ApplicationStarted) {
+                applicationState.ready = true
+                logger.info("Application is ready, running Java VM ${Runtime.version()}")
+                val kafkaStatusConsumer = KafkaStatusConsumer(
+                    eventRepository = eventRepository,
+                    kafkaEnvironment = environment.kafka,
+                    applicationState = applicationState
+                )
+                kafkaStatusConsumer.launch()
+            }
+        }
     )
 
     Runtime.getRuntime().addShutdownHook(
