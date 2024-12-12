@@ -2,7 +2,7 @@ group = "no.nav.syfo"
 version = "0.0.1"
 
 val flyway = "10.15.2"
-val hikari = "5.1.0"
+val hikari = "6.0.0"
 val postgres = "42.7.3"
 val postgresEmbedded = "2.0.7"
 val logback = "1.5.6"
