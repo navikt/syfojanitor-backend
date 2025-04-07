@@ -13,7 +13,7 @@ val ktor = "3.1.2"
 val spek = "2.0.19"
 val mockk = "1.13.17"
 val nimbusJoseJwt = "10.0.2"
-val kafka = "3.9.0"
+val kafka = "7.9.0-ce"
 val kluent = "1.73"
 
 plugins {
