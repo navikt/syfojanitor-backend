@@ -3,7 +3,7 @@ version = "0.0.1"
 
 val flyway = "11.5.0"
 val hikari = "6.3.0"
-val postgres = "42.7.5"
+val postgres = "42.7.7"
 val postgresEmbedded = "2.1.0"
 val logback = "1.5.18"
 val logstashEncoder = "7.4"
