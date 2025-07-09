@@ -5,6 +5,7 @@ val flyway = "11.5.0"
 val hikari = "6.3.0"
 val postgres = "42.7.5"
 val postgresEmbedded = "2.1.0"
+val postgresRuntimeVersion = "17.5.0"
 val logback = "1.5.18"
 val logstashEncoder = "7.4"
 val micrometerRegistry = "1.12.13"
@@ -79,6 +80,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikari")
     implementation("org.flywaydb:flyway-database-postgresql:$flyway")
     testImplementation("io.zonky.test:embedded-postgres:$postgresEmbedded")
+    testImplementation(platform("io.zonky.test.postgres:embedded-postgres-binaries-bom:$postgresRuntimeVersion"))
 
     // (De-)serialization
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatype")
