@@ -2,6 +2,8 @@
 
 # syfojanitor-backend
 
+Se hvordan man bruker `syfojanitor` ved å lese README i `syfojanitor-frontend` ([repository](https://github.com/navikt/syfojanitor-frontend))
+
 ## Technologies used
 
 * Docker
