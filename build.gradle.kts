@@ -1,25 +1,25 @@
 group = "no.nav.syfo"
 version = "0.0.1"
 
-val flyway = "11.5.0"
-val hikari = "6.3.0"
-val postgres = "42.7.5"
-val postgresEmbedded = "2.1.0"
-val postgresRuntimeVersion = "17.5.0"
-val logback = "1.5.18"
-val logstashEncoder = "7.4"
+val flyway = "11.13.2"
+val hikari = "7.0.2"
+val postgres = "42.7.8"
+val postgresEmbedded = "2.1.1"
+val postgresRuntimeVersion = "17.6.0"
+val logback = "1.5.20"
+val logstashEncoder = "9.0"
 val micrometerRegistry = "1.12.13"
-val jacksonDatatype = "2.18.3"
-val ktor = "3.1.2"
+val jacksonDatatype = "2.20.0"
+val ktor = "3.3.1"
 val spek = "2.0.19"
-val mockk = "1.13.17"
-val nimbusJoseJwt = "10.0.2"
-val kafka = "3.9.0"
+val mockk = "1.14.6"
+val nimbusJoseJwt = "10.5"
+val kafka = "4.1.0"
 val kluent = "1.73"
 
 plugins {
-    kotlin("jvm") version "2.1.0"
-    id("com.gradleup.shadow") version "8.3.6"
+    kotlin("jvm") version "2.2.20"
+    id("com.gradleup.shadow") version "8.3.7"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
 
@@ -55,12 +55,6 @@ dependencies {
     }
     implementation("org.apache.kafka:kafka_2.13:$kafka", excludeLog4j)
     constraints {
-        implementation("org.apache.zookeeper:zookeeper") {
-            because("org.apache.kafka:kafka_2.13:$kafka -> https://www.cve.org/CVERecord?id=CVE-2023-44981")
-            version {
-                require("3.9.3")
-            }
-        }
         implementation("org.bitbucket.b_c:jose4j") {
             because("org.apache.kafka:kafka_2.13:$kafka -> https://github.com/advisories/GHSA-6qvw-249j-h44c")
             version {
@@ -70,7 +64,13 @@ dependencies {
         implementation("org.apache.commons:commons-compress") {
             because("org.apache.commons:commons-compress:1.22 -> https://www.cve.org/CVERecord?id=CVE-2012-2098")
             version {
-                require("1.27.1")
+                require("1.28.0")
+            }
+        }
+        implementation("commons-beanutils:commons-beanutils") {
+            because("org.apache.kafka:kafka_2.13:$kafka -> https://www.cve.org/CVERecord?id=CVE-2025-48734")
+            version {
+                require("1.11.0")
             }
         }
     }
