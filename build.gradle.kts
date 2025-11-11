@@ -11,7 +11,6 @@ val logstashEncoder = "9.0"
 val micrometerRegistry = "1.12.13"
 val jacksonDatatype = "2.20.0"
 val ktor = "3.3.1"
-val spek = "2.0.19"
 val mockk = "1.14.6"
 val nimbusJoseJwt = "10.5"
 val kafka = "4.1.0"
@@ -58,21 +57,15 @@ dependencies {
     constraints {
         implementation("org.bitbucket.b_c:jose4j") {
             because("org.apache.kafka:kafka_2.13:$kafka -> https://github.com/advisories/GHSA-6qvw-249j-h44c")
-            version {
-                require("0.9.6")
-            }
+            version { require("0.9.6") }
         }
         implementation("org.apache.commons:commons-compress") {
             because("org.apache.commons:commons-compress:1.22 -> https://www.cve.org/CVERecord?id=CVE-2012-2098")
-            version {
-                require("1.28.0")
-            }
+            version { require("1.28.0") }
         }
         implementation("commons-beanutils:commons-beanutils") {
             because("org.apache.kafka:kafka_2.13:$kafka -> https://www.cve.org/CVERecord?id=CVE-2025-48734")
-            version {
-                require("1.11.0")
-            }
+            version { require("1.11.0") }
         }
     }
 
@@ -91,9 +84,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockk")
     testImplementation("io.ktor:ktor-client-mock:$ktor")
     testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwt")
-    testImplementation("org.amshove.kluent:kluent:$kluent")
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spek")
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spek")
+    testImplementation(kotlin("test"))
 }
 
 kotlin {
@@ -101,9 +92,7 @@ kotlin {
 }
 
 tasks {
-    jar {
-        manifest.attributes["Main-Class"] = "no.nav.syfo.AppKt"
-    }
+    jar { manifest.attributes["Main-Class"] = "no.nav.syfo.AppKt" }
 
     create("printVersion") {
         doLast {
@@ -119,9 +108,7 @@ tasks {
     }
 
     test {
-        useJUnitPlatform {
-            includeEngines("spek2")
-        }
+        useJUnitPlatform()
         testLogging.showStandardStreams = true
     }
 }
