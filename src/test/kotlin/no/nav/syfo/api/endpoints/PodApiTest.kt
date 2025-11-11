@@ -9,8 +9,8 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import no.nav.syfo.ApplicationState
+import no.nav.syfo.ExternalMockEnvironment
 import no.nav.syfo.infrastructure.database.DatabaseInterface
-import no.nav.syfo.infrastructure.database.TestDatabase
 import no.nav.syfo.infrastructure.database.TestDatabaseNotResponding
 import no.nav.syfo.util.configure
 import org.junit.jupiter.api.Test
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.assertNotNull
 import kotlin.test.assertEquals
 
 class PodApiTest {
-    private val databaseOk = TestDatabase()
+    private val databaseOk = ExternalMockEnvironment.instance.database
     private val databaseNotResponding = TestDatabaseNotResponding()
 
     private fun ApplicationTestBuilder.setupApiAndClient(
