@@ -10,16 +10,16 @@ val logback = "1.5.20"
 val logstashEncoder = "9.0"
 val micrometerRegistry = "1.12.13"
 val jacksonDatatype = "2.20.0"
-val ktor = "3.3.1"
+val ktor = "3.3.2"
 val mockk = "1.14.6"
 val nimbusJoseJwt = "10.5"
 val kafka = "4.1.0"
-val kluent = "1.73"
 
 plugins {
     kotlin("jvm") version "2.2.20"
     id("com.gradleup.shadow") version "8.3.7"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+    id("com.adarshr.test-logger") version "4.0.0"
 }
 
 repositories {

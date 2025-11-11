@@ -16,6 +16,7 @@ Se hvordan man bruker `syfojanitor` ved å lese README i `syfojanitor-frontend` 
 ##### Test Libraries:
 
 * JUnit
+* Mockk
 
 #### Requirements
 
