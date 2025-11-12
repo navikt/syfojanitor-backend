@@ -22,11 +22,11 @@ import no.nav.syfo.infrastructure.kafka.KafkaEventDTO
 import no.nav.syfo.util.configure
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.RecordMetadata
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.UUID
 import java.util.concurrent.Future
-import kotlin.test.assertEquals
 
 class JanitorEndpointsTest {
     private val externalMockEnvironment = ExternalMockEnvironment.instance

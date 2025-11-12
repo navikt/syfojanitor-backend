@@ -15,7 +15,7 @@ import no.nav.syfo.infrastructure.database.TestDatabaseNotResponding
 import no.nav.syfo.util.configure
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.*
 
 class PodApiTest {
     private val databaseOk = ExternalMockEnvironment.instance.database
