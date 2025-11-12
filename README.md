@@ -15,13 +15,12 @@ Se hvordan man bruker `syfojanitor` ved å lese README i `syfojanitor-frontend` 
 
 ##### Test Libraries:
 
-* Kluent
+* JUnit
 * Mockk
-* Spek
 
 #### Requirements
 
-* JDK 17
+* JDK 21
 
 ### Build
 
