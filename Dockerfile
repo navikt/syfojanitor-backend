@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/java21
+FROM gcr.io/distroless/java25
 WORKDIR /app
 COPY build/libs/app.jar app.jar
 ENV JDK_JAVA_OPTIONS="-XX:MaxRAMPercentage=75 -Dlogback.configurationFile=logback.xml"

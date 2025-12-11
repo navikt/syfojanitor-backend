@@ -18,7 +18,7 @@ val nimbusJoseJwt = "10.5"
 val kafka = "4.1.0"
 
 plugins {
-    kotlin("jvm") version "2.2.20"
+    kotlin("jvm") version "2.3.0-RC3"
     id("com.gradleup.shadow") version "8.3.7"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
     id("com.adarshr.test-logger") version "4.0.0"
@@ -90,7 +90,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }
 
 tasks {
