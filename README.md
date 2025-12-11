@@ -20,7 +20,7 @@ Se hvordan man bruker `syfojanitor` ved å lese README i `syfojanitor-frontend` 
 
 #### Requirements
 
-* JDK 21
+* JDK 25
 
 ### Build
 
