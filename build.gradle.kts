@@ -5,20 +5,21 @@ version = "0.0.1"
 
 val flyway = "11.19.0"
 val hikari = "7.0.2"
-val postgres = "42.7.8"
+val postgres = "42.7.10"
 val postgresEmbedded = "2.2.0"
 val postgresRuntimeVersion = "17.6.0"
-val logback = "1.5.22"
+val logback = "1.5.32"
 val logstashEncoder = "9.0"
-val micrometerRegistry = "1.12.13"
-val jacksonDatatype = "2.20.1"
-val ktor = "3.3.3"
-val mockk = "1.14.7"
-val nimbusJoseJwt = "10.6"
-val kafka = "4.1.0"
+val micrometerRegistry = "1.16.3"
+val jacksonDatatype = "2.21.1"
+val jacksonDatabindVersion = "3.1.0"
+val ktor = "3.4.1"
+val mockk = "1.14.9"
+val nimbusJoseJwt = "10.8"
+val kafka = "4.2.0"
 
 plugins {
-    kotlin("jvm") version "2.2.21"
+    kotlin("jvm") version "2.3.10"
     id("com.gradleup.shadow") version "8.3.8"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
     id("com.adarshr.test-logger") version "4.0.0"
@@ -56,20 +57,6 @@ dependencies {
         exclude(group = "org.apache.logging.log4j")
     }
     implementation("org.apache.kafka:kafka_2.13:$kafka", excludeLog4j)
-    constraints {
-        implementation("org.bitbucket.b_c:jose4j") {
-            because("org.apache.kafka:kafka_2.13:$kafka -> https://github.com/advisories/GHSA-6qvw-249j-h44c")
-            version { require("0.9.6") }
-        }
-        implementation("org.apache.commons:commons-compress") {
-            because("org.apache.commons:commons-compress:1.22 -> https://www.cve.org/CVERecord?id=CVE-2012-2098")
-            version { require("1.28.0") }
-        }
-        implementation("commons-beanutils:commons-beanutils") {
-            because("org.apache.kafka:kafka_2.13:$kafka -> https://www.cve.org/CVERecord?id=CVE-2025-48734")
-            version { require("1.11.0") }
-        }
-    }
 
     // Database
     implementation("org.postgresql:postgresql:$postgres")
@@ -80,6 +67,7 @@ dependencies {
 
     // (De-)serialization
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatype")
+    implementation("tools.jackson.core:jackson-databind:$jacksonDatabindVersion")
 
     // Tests
     testImplementation("io.ktor:ktor-server-test-host:$ktor")
