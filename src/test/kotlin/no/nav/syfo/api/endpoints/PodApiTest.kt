@@ -14,7 +14,6 @@ import no.nav.syfo.infrastructure.database.DatabaseInterface
 import no.nav.syfo.infrastructure.database.TestDatabaseNotResponding
 import no.nav.syfo.util.configure
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.Assertions.*
 
 class PodApiTest {
