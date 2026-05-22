@@ -1,0 +1,12 @@
+name: Dependabot auto-merge
+
+on:
+  pull_request:
+
+jobs:
+  dependabot-auto-merge:
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: navikt/isworkflows/.github/workflows/dependabot-auto-merge.yml@master
+    secrets: inherit
