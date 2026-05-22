@@ -3,7 +3,7 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 group = "no.nav.syfo"
 version = "0.0.1"
 
-val flyway = "11.19.0"
+val flyway = "12.6.1"
 val hikari = "7.0.2"
 val postgres = "42.7.11"
 val postgresEmbedded = "2.2.2"
