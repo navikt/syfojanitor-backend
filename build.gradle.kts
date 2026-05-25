@@ -16,7 +16,7 @@ val jacksonDatabindVersion = "3.1.3"
 val ktor = "3.5.0"
 val mockk = "1.14.9"
 val nimbusJoseJwt = "10.9"
-val kafka = "4.2.0"
+val kafka = "4.3.0"
 
 plugins {
     kotlin("jvm") version "2.3.21"
