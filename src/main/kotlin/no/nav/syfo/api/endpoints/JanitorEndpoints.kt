@@ -1,7 +1,6 @@
 package no.nav.syfo.api.endpoints
 
 import io.ktor.http.*
-import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -69,7 +68,8 @@ data class JanitorRequestDTO(
 )
 
 enum class JanitorAction {
-    LUKK_DIALOGMOTE
+    LUKK_DIALOGMOTE,
+    SLETT_BEHANDLERDIALOG
 }
 
 enum class JanitorStatus {
