@@ -18,14 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Deploy syfojanitor-event topic to dev
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/kafka/syfojanitor-event.yaml
           VARS: .nais/kafka/dev.json
 
       - name: Deploy syfojanitor-status topic to dev
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/kafka/syfojanitor-status.yaml
@@ -39,14 +39,14 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Deploy syfojanitor-event topic to prod
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: prod-gcp
           RESOURCE: .nais/kafka/syfojanitor-event.yaml
           VARS: .nais/kafka/prod.json
 
       - name: Deploy syfojanitor-status topic to prod
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: prod-gcp
           RESOURCE: .nais/kafka/syfojanitor-status.yaml

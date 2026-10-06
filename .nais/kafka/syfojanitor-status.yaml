@@ -25,3 +25,6 @@ spec:
     - team: teamsykefravr
       application: isdialogmote
       access: write
+    - team: teamsykefravr
+      application: isbehandlerdialog
+      access: write
