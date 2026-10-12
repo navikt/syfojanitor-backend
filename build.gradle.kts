@@ -3,9 +3,9 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 group = "no.nav.syfo"
 version = "0.0.1"
 
-val flyway = "13.2.0"
+val flyway = "13.10.0"
 val hikari = "7.1.0"
-val postgres = "42.7.13"
+val postgres = "42.7.14"
 val postgresEmbedded = "2.2.2"
 val postgresRuntimeVersion = "17.9.0"
 val logback = "1.6.5"
@@ -19,7 +19,7 @@ val nimbusJoseJwt = "10.10"
 val kafka = "4.3.1"
 
 plugins {
-    kotlin("jvm") version "2.4.20"
+    kotlin("jvm") version "2.4.21"
     id("com.gradleup.shadow") version "8.3.8"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
     id("com.adarshr.test-logger") version "4.0.0"
